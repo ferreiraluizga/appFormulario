@@ -14,11 +14,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -29,12 +32,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TransformedText
@@ -68,11 +74,14 @@ fun App(){
     var nascimento by remember { mutableStateOf("") }
     var cpf by remember { mutableStateOf("") }
     var telefone by remember { mutableStateOf("") }
+    var estado by remember { mutableStateOf("") }
+    var cidade by remember { mutableStateOf("") }
     var cep by remember { mutableStateOf("") }
     var endereco by remember { mutableStateOf("") }
     var complemento by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
+    var checked by remember { mutableStateOf(false) }
 
     Column(
         Modifier
@@ -130,7 +139,11 @@ fun App(){
             OutlinedTextField(
                 value = nome,
                 onValueChange = {nome = it},
-                label = { Text(text = "Nome Completo:") }
+                label = { Text(text = "Nome Completo:") },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                )
             )
         }
 
@@ -148,7 +161,11 @@ fun App(){
                     }
                 },
                 label = { Text(text = "Data de Nascimento:") },
-                visualTransformation = DateVisualTransformation() //aplicação da máscara de data | dd/mm/yyyy
+                visualTransformation = DateVisualTransformation(), //aplicação da máscara de data | dd/mm/yyyy
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                )
             )
         }
 
@@ -166,7 +183,11 @@ fun App(){
                     }
                 },
                 label = { Text(text = "CPF:") },
-                visualTransformation = CpfVisualTransformation() //aplicação da máscara de cpf | xxx.xxx.xxx-xx
+                visualTransformation = CpfVisualTransformation(), //aplicação da máscara de cpf | xxx.xxx.xxx-xx
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                )
             )
         }
 
@@ -179,7 +200,11 @@ fun App(){
             OutlinedTextField(
                 value = genero,
                 onValueChange = {genero = it},
-                label = { Text(text = "Gênero:") }
+                label = { Text(text = "Gênero:") },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                )
             )
         }
 
@@ -196,8 +221,12 @@ fun App(){
                         telefone = it
                     }
                 },
-                label = { Text(text = "Telefone:") },
-                visualTransformation = PhoneVisualTransformation() //aplicação da máscara de telefone | (xx) xxxxx-xxxx
+                label = { Text(text = "Telefone Celular:") },
+                visualTransformation = PhoneVisualTransformation(), //aplicação da máscara de telefone | (xx) xxxxx-xxxx
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                )
             )
         }
 
@@ -222,6 +251,40 @@ fun App(){
             )
         }
 
+        //campo de estado
+        Row(
+            Modifier
+                .fillMaxWidth(),
+            Arrangement.Center
+        ) {
+            OutlinedTextField(
+                value = estado,
+                onValueChange = {estado = it},
+                label = { Text(text = "Estado:") },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                )
+            )
+        }
+
+        //campo de cidade
+        Row(
+            Modifier
+                .fillMaxWidth(),
+            Arrangement.Center
+        ) {
+            OutlinedTextField(
+                value = cidade,
+                onValueChange = {cidade = it},
+                label = { Text(text = "Cidade:") },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                )
+            )
+        }
+
         //campo de cep
         Row(
             Modifier
@@ -236,7 +299,11 @@ fun App(){
                     }
                 },
                 label = { Text(text = "CEP:") },
-                visualTransformation = CepVisualTransformation() //aplicação da máscara de cep | xxxxx-xxx
+                visualTransformation = CepVisualTransformation(), //aplicação da máscara de cep | xxxxx-xxx
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                )
             )
         }
 
@@ -249,7 +316,11 @@ fun App(){
             OutlinedTextField(
                 value = endereco,
                 onValueChange = {endereco = it},
-                label = { Text(text = "Endereço:") }
+                label = { Text(text = "Endereço:") },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                )
             )
         }
 
@@ -262,7 +333,11 @@ fun App(){
             OutlinedTextField(
                 value = complemento,
                 onValueChange = {complemento = it},
-                label = { Text(text = "Complemento:") }
+                label = { Text(text = "Complemento:") },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                )
             )
         }
 
@@ -297,6 +372,10 @@ fun App(){
                 value = email,
                 onValueChange = {email = it},
                 label = { Text(text = "E-Mail:") },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                ),
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Outlined.AccountCircle,
@@ -309,7 +388,8 @@ fun App(){
         //campo de senha
         Row(
             Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(0.dp, 0.dp, 0.dp, 8.dp),
             Arrangement.Center
         ) {
             OutlinedTextField(
@@ -317,12 +397,28 @@ fun App(){
                 onValueChange = { senha = it },
                 label = { Text(text = "Senha:") },
                 visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Text,
+                ),
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Outlined.Lock,
                         contentDescription = null
                     )
                 }
+            )
+        }
+
+        //check termos de uso
+        Row(
+            Modifier
+                .fillMaxWidth(),
+            Arrangement.Center,
+            Alignment.CenterVertically
+        ) {
+            Checkbox(checked = checked, onCheckedChange = { checked = it })
+            Text(
+                text = "Aceite os Termos de Uso"
             )
         }
 
@@ -341,7 +437,13 @@ fun App(){
                 .padding(0.dp, 0.dp, 0.dp, 16.dp),
             Arrangement.Center
         ) {
-            Button(onClick = { /*TODO*/ }) {
+            Button(
+                onClick = { /*TODO*/ },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Black,
+                    contentColor = Color.White
+                )
+            ) {
                 Text(text = "Cadastrar")
             }
         }
@@ -527,5 +629,3 @@ fun AppPreview(){
         }
     }
 }
-
-
